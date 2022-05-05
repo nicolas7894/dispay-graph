@@ -5,23 +5,45 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Gravity
+    name: Factory
     network: mainnet
     source:
-      address: '0x2E645469f354BB4F5c8a05B3b30A929361cf77eC'
-      abi: Gravity
+      address: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+      abi: Factory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Gravatar
+        - Factory
       abis:
-        - name: Gravity
-          file: ./abis/Gravity.json
+        - name: Factory
+          file: ./abis/Factory.json
       eventHandlers:
-        - event: NewGravatar(uint256,address,string,string)
-          handler: handleNewGravatar
-        - event: UpdatedGravatar(uint256,address,string,string)
-          handler: handleUpdatedGravatar
-      file: ./src/mapping.ts
+        - event: NewGroup(address,address,string,string,address,uint256,uint256,address)
+          handler: handleNewGroup
+      file: ./src/mappings/factory.ts
+
+templates:
+  - name: Group
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Group
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/core.ts
+      entities:
+        - Group
+      abis:
+        - name: Group
+          file: ./abis/Group.json
+      eventHandlers:
+        - event: NewDeposit(address,uint256,address)
+          handler: handleNewDeposit
+        - event: NewBurn(address,uint256)
+          handler: handleNewBurn
+        - event: NewMint(address,uint256)
+          handler: handleNewMint
