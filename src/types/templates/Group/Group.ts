@@ -365,6 +365,21 @@ export class Group extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  maxMembers(): BigInt {
+    let result = super.call("maxMembers", "maxMembers():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_maxMembers(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("maxMembers", "maxMembers():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   name(): string {
     let result = super.call("name", "name():(string)", []);
 
@@ -393,6 +408,21 @@ export class Group extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  refId(): string {
+    let result = super.call("refId", "refId():(string)", []);
+
+    return result[0].toString();
+  }
+
+  try_refId(): ethereum.CallResult<string> {
+    let result = super.tryCall("refId", "refId():(string)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
   }
 
   symbol(): string {
@@ -542,8 +572,20 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[4].value.toBigInt();
   }
 
+  get _maxMembers(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+
   get _treasureAddress(): Address {
-    return this._call.inputValues[5].value.toAddress();
+    return this._call.inputValues[6].value.toAddress();
+  }
+
+  get _refId(): string {
+    return this._call.inputValues[7].value.toString();
+  }
+
+  get _contractOwner(): Address {
+    return this._call.inputValues[8].value.toAddress();
   }
 }
 

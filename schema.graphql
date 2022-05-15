@@ -24,6 +24,7 @@ type UserGroup @entity {
 type Group @entity {
   id: ID!
   createdAt: BigInt!
+  refId:String!
   address: Bytes!
   owner:Bytes!
   groupName:String!

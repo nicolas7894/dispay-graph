@@ -233,6 +233,7 @@ export class Group extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("createdAt", Value.fromBigInt(BigInt.zero()));
+    this.set("refId", Value.fromString(""));
     this.set("address", Value.fromBytes(Bytes.empty()));
     this.set("owner", Value.fromBytes(Bytes.empty()));
     this.set("groupName", Value.fromString(""));
@@ -277,6 +278,15 @@ export class Group extends Entity {
 
   set createdAt(value: BigInt) {
     this.set("createdAt", Value.fromBigInt(value));
+  }
+
+  get refId(): string {
+    let value = this.get("refId");
+    return value!.toString();
+  }
+
+  set refId(value: string) {
+    this.set("refId", Value.fromString(value));
   }
 
   get address(): Bytes {

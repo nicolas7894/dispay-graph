@@ -27,8 +27,23 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "_maxMembers",
+        "type": "uint256"
+      },
+      {
         "internalType": "address",
         "name": "_treasureAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "_refId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "_contractOwner",
         "type": "address"
       }
     ],
@@ -379,6 +394,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "maxMembers",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -417,6 +445,19 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "refId",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
       }
     ],
     "stateMutability": "view",

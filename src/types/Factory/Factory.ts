@@ -51,8 +51,33 @@ export class NewGroup__Params {
     return this._event.parameters[6].value.toBigInt();
   }
 
+  get maxMembers(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
   get treasureAddress(): Address {
-    return this._event.parameters[7].value.toAddress();
+    return this._event.parameters[8].value.toAddress();
+  }
+
+  get refId(): string {
+    return this._event.parameters[9].value.toString();
+  }
+}
+
+export class Factory__createGroupResult {
+  value0: Address;
+  value1: Address;
+
+  constructor(value0: Address, value1: Address) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromAddress(this.value0));
+    map.set("value1", ethereum.Value.fromAddress(this.value1));
+    return map;
   }
 }
 
@@ -62,54 +87,67 @@ export class Factory extends ethereum.SmartContract {
   }
 
   createGroup(
+    _gnosisowners: Array<Address>,
     _groupName: string,
     _groupSymbol: string,
     _depositToken: Address,
     _depositEndDate: BigInt,
     _depositLimit: BigInt,
-    _treasureAddress: Address
-  ): Address {
+    _maxMembers: BigInt,
+    _refId: string
+  ): Factory__createGroupResult {
     let result = super.call(
       "createGroup",
-      "createGroup(string,string,address,uint256,uint256,address):(address)",
+      "createGroup(address[],string,string,address,uint256,uint256,uint256,string):(address,address)",
       [
+        ethereum.Value.fromAddressArray(_gnosisowners),
         ethereum.Value.fromString(_groupName),
         ethereum.Value.fromString(_groupSymbol),
         ethereum.Value.fromAddress(_depositToken),
         ethereum.Value.fromUnsignedBigInt(_depositEndDate),
         ethereum.Value.fromUnsignedBigInt(_depositLimit),
-        ethereum.Value.fromAddress(_treasureAddress)
+        ethereum.Value.fromUnsignedBigInt(_maxMembers),
+        ethereum.Value.fromString(_refId)
       ]
     );
 
-    return result[0].toAddress();
+    return new Factory__createGroupResult(
+      result[0].toAddress(),
+      result[1].toAddress()
+    );
   }
 
   try_createGroup(
+    _gnosisowners: Array<Address>,
     _groupName: string,
     _groupSymbol: string,
     _depositToken: Address,
     _depositEndDate: BigInt,
     _depositLimit: BigInt,
-    _treasureAddress: Address
-  ): ethereum.CallResult<Address> {
+    _maxMembers: BigInt,
+    _refId: string
+  ): ethereum.CallResult<Factory__createGroupResult> {
     let result = super.tryCall(
       "createGroup",
-      "createGroup(string,string,address,uint256,uint256,address):(address)",
+      "createGroup(address[],string,string,address,uint256,uint256,uint256,string):(address,address)",
       [
+        ethereum.Value.fromAddressArray(_gnosisowners),
         ethereum.Value.fromString(_groupName),
         ethereum.Value.fromString(_groupSymbol),
         ethereum.Value.fromAddress(_depositToken),
         ethereum.Value.fromUnsignedBigInt(_depositEndDate),
         ethereum.Value.fromUnsignedBigInt(_depositLimit),
-        ethereum.Value.fromAddress(_treasureAddress)
+        ethereum.Value.fromUnsignedBigInt(_maxMembers),
+        ethereum.Value.fromString(_refId)
       ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
+    return ethereum.CallResult.fromValue(
+      new Factory__createGroupResult(value[0].toAddress(), value[1].toAddress())
+    );
   }
 }
 
@@ -128,6 +166,14 @@ export class ConstructorCall__Inputs {
 
   constructor(call: ConstructorCall) {
     this._call = call;
+  }
+
+  get _PROXY_FACTORY(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _MASTER_COPY(): Address {
+    return this._call.inputValues[1].value.toAddress();
   }
 }
 
@@ -156,28 +202,36 @@ export class CreateGroupCall__Inputs {
     this._call = call;
   }
 
-  get _groupName(): string {
-    return this._call.inputValues[0].value.toString();
+  get _gnosisowners(): Array<Address> {
+    return this._call.inputValues[0].value.toAddressArray();
   }
 
-  get _groupSymbol(): string {
+  get _groupName(): string {
     return this._call.inputValues[1].value.toString();
   }
 
+  get _groupSymbol(): string {
+    return this._call.inputValues[2].value.toString();
+  }
+
   get _depositToken(): Address {
-    return this._call.inputValues[2].value.toAddress();
+    return this._call.inputValues[3].value.toAddress();
   }
 
   get _depositEndDate(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get _depositLimit(): BigInt {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _treasureAddress(): Address {
-    return this._call.inputValues[5].value.toAddress();
+  get _depositLimit(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+
+  get _maxMembers(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
+  }
+
+  get _refId(): string {
+    return this._call.inputValues[7].value.toString();
   }
 }
 
@@ -190,5 +244,9 @@ export class CreateGroupCall__Outputs {
 
   get groupAddress(): Address {
     return this._call.outputValues[0].value.toAddress();
+  }
+
+  get safeAddress(): Address {
+    return this._call.outputValues[1].value.toAddress();
   }
 }

@@ -1,7 +1,8 @@
 {
-  "mainnet": {
-    "Gravity": {
-      "address": "0x2E645469f354BB4F5c8a05B3b30A929361cf77eC"
+  "mumbai": {
+    "Factory": {
+      "address": "0x40834F278FeaD256c9D38f1f162183e28b545409",
+      "startBlock": 26217261
     }
   }
 }
