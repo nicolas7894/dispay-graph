@@ -37,11 +37,6 @@
         "type": "address"
       },
       {
-        "internalType": "string",
-        "name": "_refId",
-        "type": "string"
-      },
-      {
         "internalType": "address",
         "name": "_contractOwner",
         "type": "address"
@@ -445,19 +440,6 @@
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "refId",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
       }
     ],
     "stateMutability": "view",

@@ -71,12 +71,6 @@
         "internalType": "address",
         "name": "treasureAddress",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "refId",
-        "type": "string"
       }
     ],
     "name": "NewGroup",
@@ -118,11 +112,6 @@
         "internalType": "uint256",
         "name": "_maxMembers",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_refId",
-        "type": "string"
       }
     ],
     "name": "createGroup",

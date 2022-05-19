@@ -11,7 +11,6 @@ export function handleNewGroup(event: NewGroup): void {
     group.totalDeposited = BigDecimal.zero();
     group.totalMinted = BigDecimal.zero();
     group.owner = event.params.owner;
-    group.refId = event.params.refId;
     group.groupName = event.params.groupName;
     group.groupSymbol = event.params.groupSymbol;
     group.depositToken = event.params.depositToken;

@@ -410,21 +410,6 @@ export class Group extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  refId(): string {
-    let result = super.call("refId", "refId():(string)", []);
-
-    return result[0].toString();
-  }
-
-  try_refId(): ethereum.CallResult<string> {
-    let result = super.tryCall("refId", "refId():(string)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
   symbol(): string {
     let result = super.call("symbol", "symbol():(string)", []);
 
@@ -580,12 +565,8 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[6].value.toAddress();
   }
 
-  get _refId(): string {
-    return this._call.inputValues[7].value.toString();
-  }
-
   get _contractOwner(): Address {
-    return this._call.inputValues[8].value.toAddress();
+    return this._call.inputValues[7].value.toAddress();
   }
 }
 

@@ -58,10 +58,6 @@ export class NewGroup__Params {
   get treasureAddress(): Address {
     return this._event.parameters[8].value.toAddress();
   }
-
-  get refId(): string {
-    return this._event.parameters[9].value.toString();
-  }
 }
 
 export class Factory__createGroupResult {
@@ -93,12 +89,11 @@ export class Factory extends ethereum.SmartContract {
     _depositToken: Address,
     _depositEndDate: BigInt,
     _depositLimit: BigInt,
-    _maxMembers: BigInt,
-    _refId: string
+    _maxMembers: BigInt
   ): Factory__createGroupResult {
     let result = super.call(
       "createGroup",
-      "createGroup(address[],string,string,address,uint256,uint256,uint256,string):(address,address)",
+      "createGroup(address[],string,string,address,uint256,uint256,uint256):(address,address)",
       [
         ethereum.Value.fromAddressArray(_gnosisowners),
         ethereum.Value.fromString(_groupName),
@@ -106,8 +101,7 @@ export class Factory extends ethereum.SmartContract {
         ethereum.Value.fromAddress(_depositToken),
         ethereum.Value.fromUnsignedBigInt(_depositEndDate),
         ethereum.Value.fromUnsignedBigInt(_depositLimit),
-        ethereum.Value.fromUnsignedBigInt(_maxMembers),
-        ethereum.Value.fromString(_refId)
+        ethereum.Value.fromUnsignedBigInt(_maxMembers)
       ]
     );
 
@@ -124,12 +118,11 @@ export class Factory extends ethereum.SmartContract {
     _depositToken: Address,
     _depositEndDate: BigInt,
     _depositLimit: BigInt,
-    _maxMembers: BigInt,
-    _refId: string
+    _maxMembers: BigInt
   ): ethereum.CallResult<Factory__createGroupResult> {
     let result = super.tryCall(
       "createGroup",
-      "createGroup(address[],string,string,address,uint256,uint256,uint256,string):(address,address)",
+      "createGroup(address[],string,string,address,uint256,uint256,uint256):(address,address)",
       [
         ethereum.Value.fromAddressArray(_gnosisowners),
         ethereum.Value.fromString(_groupName),
@@ -137,8 +130,7 @@ export class Factory extends ethereum.SmartContract {
         ethereum.Value.fromAddress(_depositToken),
         ethereum.Value.fromUnsignedBigInt(_depositEndDate),
         ethereum.Value.fromUnsignedBigInt(_depositLimit),
-        ethereum.Value.fromUnsignedBigInt(_maxMembers),
-        ethereum.Value.fromString(_refId)
+        ethereum.Value.fromUnsignedBigInt(_maxMembers)
       ]
     );
     if (result.reverted) {
@@ -228,10 +220,6 @@ export class CreateGroupCall__Inputs {
 
   get _maxMembers(): BigInt {
     return this._call.inputValues[6].value.toBigInt();
-  }
-
-  get _refId(): string {
-    return this._call.inputValues[7].value.toString();
   }
 }
 
